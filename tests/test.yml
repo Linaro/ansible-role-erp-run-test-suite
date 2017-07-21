@@ -1,0 +1,7 @@
+---
+- hosts: all
+  vars:
+    erp_latest_build: 430
+    erp_squad_auth_token: XXX
+  roles:
+    - role_under_test
