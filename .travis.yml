@@ -26,9 +26,13 @@ script:
       ansible-playbook /etc/ansible/roles/role_under_test/tests/test.yml'
 
   # Verify tests are running in background and output files are created
-  - pgrep run_erp_suite
-  - stat /root/run_erp_suite.stderr.log
-  - stat /root/run_erp_suite.stdout.log
+  - sleep 10 # Give the test time to spin up
+  - 'sudo docker exec --tty "$(cat ${container_id})" env TERM=xterm
+      pgrep run_erp_suite'
+  - 'sudo docker exec --tty "$(cat ${container_id})" env TERM=xterm
+      stat /root/run_erp_suite.stderr.log'
+  - 'sudo docker exec --tty "$(cat ${container_id})" env TERM=xterm
+      stat /root/run_erp_suite.stdout.log'
 
 after_success:
   - 'sudo docker stop "$(cat ${container_id})"'
