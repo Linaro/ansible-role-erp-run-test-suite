@@ -25,7 +25,7 @@ Example Playbook
 
     - hosts: servers
       roles:
-        - role: ansible-role-erp-run-test-suite
+        - role: Linaro.erp-run-test-suite
 
 License
 -------
