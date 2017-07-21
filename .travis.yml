@@ -1,0 +1,37 @@
+---
+sudo: required
+
+env:
+  - container: geerlingguy/docker-debian8-ansible
+    init: /lib/systemd/systemd
+    run_opts: "--privileged"
+
+services:
+  - docker
+
+before_install:
+  - 'sudo docker pull ${container}'
+
+script:
+  - container_id=$(mktemp)
+
+  # Run container
+  - 'sudo docker run --detach --volume="${PWD}":/etc/ansible/roles/role_under_test ${run_opts} ${container} "${init}" > "${container_id}"'
+
+  # Ansible syntax check.
+  - 'sudo docker exec --tty "$(cat ${container_id})" env TERM=xterm
+      ansible-playbook /etc/ansible/roles/role_under_test/tests/test.yml --syntax-check'
+  # Test role.
+  - 'sudo docker exec --tty "$(cat ${container_id})" env TERM=xterm
+      ansible-playbook /etc/ansible/roles/role_under_test/tests/test.yml'
+
+  # Verify tests are running in background and output files are created
+  - pgrep run_erp_suite
+  - stat /root/run_erp_suite.stderr.log
+  - stat /root/run_erp_suite.stdout.log
+
+after_success:
+  - 'sudo docker stop "$(cat ${container_id})"'
+
+notifications:
+  webhooks: https://galaxy.ansible.com/api/v1/notifications/
