@@ -18,7 +18,7 @@ os_name=$(slugify `grep ^ID= /etc/os-release | awk -F= '{print $2}'`)
 
 cd ${td_path}
 . ./automated/bin/setenv.sh
-build_id=$1-$(dpkg-query -W -f '${package}-${version}\n' | grep linaro | md5sum | cut -c -8)
+build_id=$1-$(apt-cache dump | md5sum | cut -c -8)
 
 for plan in ${plans}; do
     plan_short=$(basename -s .yaml ${plan})
