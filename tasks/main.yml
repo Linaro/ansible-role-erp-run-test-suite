@@ -3,16 +3,16 @@
   assert:
     that: "{{ item }} is defined"
   with_items:
-    - erp_latest_build
+    - erp_build_number
     - erp_squad_environment
     - erp_squad_auth_token
 
 - name: Gather Facts
   setup:
 
-- name: Check for /root/test-definitions
+- name: Check for previous run
   stat:
-    path: /root/test-definitions
+    path: /root/run_erp_suite.stdout.log
   register: tests_run
 - name: Verify host is clean
   fail:
@@ -53,6 +53,6 @@
 
 - name: Run ERP test suite
   # daemon --name ensures only one runs at a time
-  command: daemon --name=erp_suite --errlog=/root/run_erp_suite.stderr.log --dbglog=/root/run_erp_suite.stdout.log -- /root/run_erp_suite.sh {{erp_latest_build}}
+  command: daemon --name=erp_suite --errlog=/root/run_erp_suite.stderr.log --dbglog=/root/run_erp_suite.stdout.log -- /root/run_erp_suite.sh {{erp_build_number}}
   environment:
     SQUAD_AUTH_TOKEN: "{{erp_squad_auth_token}}"

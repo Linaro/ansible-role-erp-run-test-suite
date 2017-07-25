@@ -8,7 +8,7 @@ Role Variables
 
 | variable | description | default
 |----------|-------------|---------
-| erp_latest_build | ERP build number | No default - required
+| erp_build_number | ERP build number | No default - required
 | erp_squad_environment | [production|staging] | production
 | erp_squad_auth_token | Squad API auth token | No default - required
 
@@ -16,14 +16,16 @@ Role Variables
 Dependencies
 ------------
 
-If ansible-role-erp-get-build is run first, then erp_latest_build will be set.
+If ansible-role-erp-get-build is run first, then erp_build_number will be set.
 Otherwise, it must be set to the erp build number that is installed on the
 host.
 
 Example Playbook
 ----------------
 
-    - hosts: servers
+    - hosts: all
+      vars:
+        erp_build_number: 454 # ERP build installed on host
       roles:
         - role: Linaro.erp-run-test-suite
 
