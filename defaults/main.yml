@@ -1,5 +1,7 @@
 ---
 
+erp_debian_installer_environment: staging
+
 erp_squad_environment: production
 erp_squad_url:
   production: "https://qa-reports.linaro.org"

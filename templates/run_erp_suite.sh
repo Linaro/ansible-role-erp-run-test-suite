@@ -35,6 +35,6 @@ for plan in ${plans}; do
                   -a ${output_path}/test-runner-stderr.log \
                   -u ${report_url} \
                   -t erp-${vendor_name} \
-                  -p staging-debian \
+                  -p {{erp_debian_installer_environment}}-debian \
                   > ${output_path}/post-to-squad.log 2>&1
 done
