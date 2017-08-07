@@ -11,6 +11,7 @@ Role Variables
 | erp_build_number | ERP build number | No default - required
 | erp_squad_environment | [production|staging] | production
 | erp_squad_auth_token | Squad API auth token | No default - required
+| erp_debian_installer_environment | [staging|stable] | staging
 
 
 Dependencies
