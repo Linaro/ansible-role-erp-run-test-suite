@@ -52,7 +52,6 @@
     mode: 0755
 
 - name: Run ERP test suite
-  # daemon --name ensures only one runs at a time
-  command: daemon --name=erp_suite --errlog=/root/run_erp_suite.stderr.log --dbglog=/root/run_erp_suite.stdout.log -- /root/run_erp_suite.sh {{erp_build_number}}
+  shell: nohup /root/run_erp_suite.sh {{erp_build_number}} > /root/run_erp_suite.stdout.log 2>/root/run_erp_suite.stderr.log &
   environment:
     SQUAD_AUTH_TOKEN: "{{erp_squad_auth_token}}"
