@@ -27,7 +27,6 @@
   with_items:
     - git
     - python-pip
-    - daemon
     - sysstat # for troubleshooting
     - strace # for troubleshooting
 
