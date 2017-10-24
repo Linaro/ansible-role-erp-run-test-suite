@@ -6,7 +6,7 @@ if [ -z $1 ]; then
 fi
 
 report_url="{{erp_squad_url[erp_squad_environment]}}"
-plans="plans/rpb_ee/rpb_ee_functional.yaml plans/rpb_ee/rpb_ee_enterprise.yaml plans/rpb_ee/rpb_ee_performance.yaml plans/rpb_ee/rpb_ee_ltp.yaml"
+plans="plans/erp/erp-functional.yaml plans/erp/erp-enterprise.yaml plans/erp/erp-performance.yaml plans/erp/erp-ltp.yaml"
 
 root_path=/root
 td_path=${root_path}/test-definitions
