@@ -32,9 +32,9 @@
 
 - name: Clone test-definitions repository
   git:
-    repo: 'https://git.linaro.org/qa/test-definitions.git'
+    repo: "{{ erp_test_definitions_repo }}"
     dest: /root/test-definitions
-    version: erp-17.08
+    version: "{{ erp_test_definitions_branch }}"
 
 - name: Install python prerequisites
   pip:
