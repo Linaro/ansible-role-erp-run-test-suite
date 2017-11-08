@@ -6,7 +6,11 @@ if [ -z $1 ]; then
 fi
 
 report_url="{{erp_squad_url[erp_squad_environment]}}"
-plans="plans/erp/erp-functional.yaml plans/erp/erp-enterprise.yaml plans/erp/erp-ltp.yaml plans/erp/erp-performance.yaml"
+
+# The order is important.
+# - erp-enterprise may modify the state of the host due to buggy tests. Run it
+#   last so it doesn't impact the other tests.
+plans="plans/erp/erp-functional.yaml plans/erp/erp-ltp.yaml plans/erp/erp-performance.yaml plans/erp/erp-enterprise.yaml"
 
 root_path=/root
 td_path=${root_path}/test-definitions
