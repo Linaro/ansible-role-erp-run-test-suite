@@ -29,12 +29,18 @@ cd ${td_path}
 # status file seems to be dynamically generated and contains a timestamp.
 build_id=$1-$(apt-cache dump | grep -v "^ Time" | md5sum | cut -c -8)
 
+# Apply test plan overlay when board-specifc ovelay file exists.
+overlay_arg=""
+if [ -f "plans/erp/overlays/${board_name}.yaml" ]; then
+    overlay_arg="-O plans/erp/overlays/${board_name}.yaml"
+fi
+
 for plan in ${plans}; do
     plan_short=$(basename -s .yaml ${plan})
     output_path=${root_path}/${build_id}-${plan_short}
     mkdir -p ${output_path}
     test-runner -o ${output_path} \
-                -p ${plan} \
+                -p ${plan} ${overlay_arg}\
                 > ${output_path}/test-runner-stdout.log \
                 2> ${output_path}/test-runner-stderr.log
     post-to-squad -r ${output_path}/result.json \
