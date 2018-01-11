@@ -53,3 +53,6 @@ for plan in ${plans}; do
                   -p {{erp_debian_installer_environment}}-debian \
                   > ${output_path}/post-to-squad.log 2>&1
 done
+
+# Power off SUT to release it.
+poweroff
