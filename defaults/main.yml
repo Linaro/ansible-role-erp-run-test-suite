@@ -9,4 +9,4 @@ erp_squad_url:
 
 erp_test_definitions_repo: 'https://git.linaro.org/qa/test-definitions.git'
 
-erp_test_definitions_branch: erp-18.01
+erp_test_definitions_branch: erp-18.06
