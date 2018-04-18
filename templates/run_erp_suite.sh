@@ -1,5 +1,7 @@
 #!/bin/sh
 
+set -x
+
 if [ -z $1 ]; then
     echo "Usage: $0 <build_number>"
     exit 1
@@ -16,8 +18,8 @@ root_path=/root
 td_path=${root_path}/test-definitions
 
 # Gather environmental info for erp project and environment names
-vendor_name=$(slugify `cat /sys/devices/virtual/dmi/id/board_vendor`)
-board_name=$(slugify `cat /sys/devices/virtual/dmi/id/board_name`)
+[ -n "${vendor_name}" ] || vendor_name=$(slugify `cat /sys/devices/virtual/dmi/id/board_vendor`)
+[ -n "${board_name}" ] || board_name=$(slugify `cat /sys/devices/virtual/dmi/id/board_name`)
 os_name=$(slugify `grep ^ID= /etc/os-release | awk -F= '{print $2}'`)
 
 cd ${td_path}
@@ -50,6 +52,7 @@ for plan in ${plans}; do
                   -a ${output_path}/test-runner-stderr.log \
                   -u ${report_url} \
                   -t erp-${vendor_name} \
+                  -e ${board_name}
                   -p {{erp_debian_installer_environment}}-debian \
                   > ${output_path}/post-to-squad.log 2>&1
 done

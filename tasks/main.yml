@@ -54,3 +54,5 @@
   shell: nohup /root/run_erp_suite.sh {{erp_build_number}} > /root/run_erp_suite.stdout.log 2>/root/run_erp_suite.stderr.log &
   environment:
     SQUAD_AUTH_TOKEN: "{{erp_squad_auth_token}}"
+    vendor_name: "{{vendor_name | default('')}}"
+    board_name: "{{board_name | default('')}}"
