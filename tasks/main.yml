@@ -19,7 +19,7 @@
     msg: Error - It looks like tests have already run on this host.
   when: tests_run.stat.exists
 
-- name: Package Prerequisites
+- name: Install Package Prerequisites for Debian
   apt:
     update_cache: yes
     cache_valid_time: 86400
@@ -29,6 +29,21 @@
     - python-pip
     - sysstat # for troubleshooting
     - strace # for troubleshooting
+  when: ansible_distribution == "Debian"
+
+- name: Install Package Prerequisites for CentOS
+  yum:
+    state: "latest"
+    pkg: "{{item}}"
+  with_items:
+    - git
+    - sysstat
+    - strace
+  when: ansible_distribution == "CentOS"
+
+- name: Install pip with get-pip.py for CentOS
+  shell: curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py && python get-pip.py
+  when: ansible_distribution == "CentOS"
 
 - name: Clone test-definitions repository
   git:
