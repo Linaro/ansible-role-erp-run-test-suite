@@ -20,7 +20,7 @@ td_path=${root_path}/test-definitions
 # Gather environmental info for erp project and environment names
 [ -n "${vendor_name}" ] || vendor_name=$(slugify `cat /sys/devices/virtual/dmi/id/board_vendor`)
 [ -n "${board_name}" ] || board_name=$(slugify `cat /sys/devices/virtual/dmi/id/board_name`)
-os_name=$(slugify `grep ^ID= /etc/os-release | awk -F= '{print $2}'`)
+os_name=$(. /etc/os-release && echo $ID)
 
 cd ${td_path}
 . ./automated/bin/setenv.sh
@@ -53,9 +53,9 @@ for plan in ${plans}; do
                   -u ${report_url} \
                   -t erp-${vendor_name} \
                   -e ${board_name} \
-                  -p {{erp_debian_installer_environment}}-debian \
+                  -p {{erp_installer_environment}}-${os_name} \
                   > ${output_path}/post-to-squad.log 2>&1
 done
 
 # Power off SUT to release it.
-poweroff
+/sbin/poweroff

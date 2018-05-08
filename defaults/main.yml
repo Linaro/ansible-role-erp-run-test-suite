@@ -1,6 +1,7 @@
 ---
-
-erp_debian_installer_environment: staging
+# Which build to test. Defaults to debian staging, but may also be other builds
+erp_installer_distro: debian
+erp_installer_environment: staging
 
 erp_squad_environment: production
 erp_squad_url:
