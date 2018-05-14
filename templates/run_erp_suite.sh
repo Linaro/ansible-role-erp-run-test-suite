@@ -25,11 +25,22 @@ os_name=$(. /etc/os-release && echo $ID)
 cd ${td_path}
 . ./automated/bin/setenv.sh
 
-# Calculate a unique build id based on the build number but also the contents
-# of the local apt-cache, so that when the available set of packages changes,
-# the build id changes. Remove "^ Time" from the results because the dpkg
-# status file seems to be dynamically generated and contains a timestamp.
-build_id=$1-$(apt-cache dump | grep -v "^ Time" | md5sum | cut -c -8)
+# Calculate a unique build id based on the build number but also the contents of the
+# local package cache, so that when the available set of packages changes, the build id
+# changes.
+case "${os_name}" in
+    debian)
+        # Remove "^ Time" from the results because the dpkg status file seems to be
+        # dynamically generated and contains a timestamp.
+        build_id=$1-$(apt-cache dump | grep -v "^ Time" | md5sum | cut -c -8)
+        ;;
+    centos)
+        yum makecache
+        # repomd.xml contains the location, checksums, and timestamp of the other XML
+        # metadata files.
+        build_id=$1-$(cat $(find /var/cache/yum/ -name repomd.xml) | md5sum | cut -c -8)
+        ;;
+esac
 
 # Apply test plan overlay when board-specifc ovelay file exists.
 overlay_arg=""

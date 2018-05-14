@@ -31,18 +31,21 @@
     - strace # for troubleshooting
   when: ansible_distribution == "Debian"
 
+- name: Enable epel-release repo for CentOS
+  yum:
+    name: epel-release
+    state: latest
+  when: ansible_distribution == "CentOS"
+
 - name: Install Package Prerequisites for CentOS
   yum:
     state: "latest"
     pkg: "{{item}}"
   with_items:
+    - python-pip
     - git
     - sysstat
     - strace
-  when: ansible_distribution == "CentOS"
-
-- name: Install pip with get-pip.py for CentOS
-  shell: curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py && python get-pip.py
   when: ansible_distribution == "CentOS"
 
 - name: Clone test-definitions repository
