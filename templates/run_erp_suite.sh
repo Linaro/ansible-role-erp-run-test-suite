@@ -44,7 +44,7 @@ esac
 
 # Apply test plan overlay when board-specifc ovelay file exists.
 overlay_arg=""
-if [ -f "plans/erp/overlays/${board_name}.yaml" ]; then
+if [ -f "plans/erp/${os_name}/overlays/${board_name}.yaml" ]; then
     overlay_arg="-O plans/erp/overlays/${board_name}.yaml"
 fi
 
