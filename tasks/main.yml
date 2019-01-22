@@ -10,6 +10,9 @@
 - name: Gather Facts
   setup:
 
+- name: Print out the gathered facts
+  debug: var=hostvars[inventory_hostname]
+
 - name: Check for previous run
   stat:
     path: /root/run_erp_suite.stdout.log
